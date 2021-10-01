@@ -43,7 +43,7 @@ router.put("/:id", (req, res, next) => {
       if (project) {
         res.status(200).json(project);
       } else {
-        res.status(404).json({
+        res.status(400).json({
           message: `There is no projects with the id of ${req.params.id}`,
         });
       }
