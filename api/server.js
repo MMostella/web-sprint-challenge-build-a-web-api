@@ -1,15 +1,22 @@
 const express = require("express");
-
+const helmet = require("helmet");
 const server = express();
 
 const actionsRouter = require("./actions/actions-router");
 const projectsRouter = require("./projects/projects-router");
 
 server.use(express.json());
+server.use(helmet());
 server.use("/api/actions", logger, actionsRouter);
-server.use("api/projects", logger, projectsRouter);
+server.use("/api/projects", logger, projectsRouter);
 
-// Configure your server here
+server.get("/", (req, res) => {
+  res.send(`<h2>Welcome to spring challenge Unit 4</h2>`);
+});
+
+server.use("*", (req, res, next) => {
+  next({ status: 404, message: `${req.method} ${req.originalUrl} not found` });
+});
 
 server.use(errorHandling);
 
