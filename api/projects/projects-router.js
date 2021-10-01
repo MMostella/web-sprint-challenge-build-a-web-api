@@ -40,12 +40,12 @@ router.post("/", validateProject, (req, res, next) => {
 router.put("/:id", (req, res, next) => {
   Projects.update(req.params.id, req.body)
     .then((project) => {
-      if (project) {
-        res.status(200).json(project);
-      } else {
+      if (!project) {
         res.status(400).json({
           message: `There is no projects with the id of ${req.params.id}`,
         });
+      } else {
+        res.status(200).json(project);
       }
     })
     .catch(next);

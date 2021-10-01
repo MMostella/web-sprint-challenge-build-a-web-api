@@ -26,16 +26,32 @@ router.get("/:id", (req, res, next) => {
     .catch(next);
 });
 
-router.post("/", validateAction, (req, res, next) => {
+router.post("/", (req, res, next) => {
   Actions.insert(req.body)
+    .then((action) => {
+      res.status(200).json(action);
+    })
+    .catch((err) => {
+      next({ status: 400 });
+    });
+});
+
+router.put("/:id", (req, res, next) => {
+  Actions.update(req.params.id, req.body)
+    .then((action) => {
+      res.status(200).json(action);
+    })
+    .catch((err) => {
+      next({ status: 400 });
+    });
+});
+
+router.delete("/:id", (req, res, next) => {
+  Actions.remove(req.params.id)
     .then((action) => {
       res.status(200).json(action);
     })
     .catch(next);
 });
-
-router.put("/:id", (req, res, next) => {});
-
-router.delete("/:id", (req, res, next) => {});
 
 module.exports = router;
